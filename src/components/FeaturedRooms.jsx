@@ -7,7 +7,8 @@ import Title from "./Title";
 class FeaturedRooms extends React.Component {
   static contextType = RoomContext;
   render() {
-    let { loading, featuredRooms } = this.context;
+    const { data } = this.context;
+    const { loading, featuredRooms } = data;
 
     const featuredRoomsJsx = featuredRooms.map((room) => {
       return <Room key={room.id} featuredRooms={room} />;
