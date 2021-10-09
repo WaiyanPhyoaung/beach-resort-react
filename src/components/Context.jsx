@@ -8,7 +8,7 @@ class RoomProvider extends React.Component {
     rooms: [],
     sortedRooms: [],
     featuredRooms: [],
-    loading: false,
+    loading: true,
   };
   componentDidMount() {
     const rooms = this.formatData(data);
@@ -17,7 +17,7 @@ class RoomProvider extends React.Component {
       rooms: rooms,
       featuredRooms: featuredRooms,
       sortedRooms: rooms,
-      loading: this.state.loading,
+      loading: false,
     });
   }
   formatData(items) {
