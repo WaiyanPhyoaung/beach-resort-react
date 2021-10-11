@@ -1,6 +1,6 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useContext } from "react";
-import { useEffect, useState } from "react/cjs/react.development";
+import { useCallback, useEffect, useState } from "react/cjs/react.development";
 import { RoomContext } from "./Context";
 import Loading from "./Loading";
 import RoomLists from "./RoomLists";
@@ -13,7 +13,8 @@ const RoomsContainer = () => {
   const [roomData, setRoomData] = useState([]);
   const [specificData, setSpecificData] = useState({});
 
-  const getSpecificData = () => {
+  //
+  const getSpecificData = useCallback(() => {
     const priceArr = sortedRooms.map((r) => r.price);
     const maxPrice = Math.max(...priceArr);
 
@@ -22,8 +23,8 @@ const RoomsContainer = () => {
 
     setSpecificData({
       roomType: "all",
-      breakfast: false,
-      capacity: 0,
+      capacity: 1,
+      price: maxPrice,
       minSize: 0,
       minPrize: 0,
       breakfast: false,
@@ -31,16 +32,15 @@ const RoomsContainer = () => {
       maxSize: maxSize,
       maxPrice: maxPrice,
     });
-  };
+  }, [sortedRooms]);
 
   useEffect(() => {
     getSpecificData();
     setRoomData([...sortedRooms]);
-  }, [sortedRooms]);
+  }, [sortedRooms, getSpecificData]);
 
   const handleChange = (event) => {
     const { name, type, value, checked } = event.target;
-
     const valueOrChecked = type === "checkbox" ? checked : value;
 
     setSpecificData({
@@ -49,26 +49,46 @@ const RoomsContainer = () => {
     });
   };
 
-  useEffect(() => {
+  const filterRooms = useCallback(() => {
+    let newUpdateRooms = [...sortedRooms];
+
+    //filter by type
     if (specificData.roomType !== "all") {
-      const newUpdatRooms = sortedRooms.filter(
+      newUpdateRooms = newUpdateRooms.filter(
         (r) => r.type === specificData.roomType
       );
-      setRoomData(newUpdatRooms);
-    } else {
-      setRoomData(sortedRooms);
     }
-  }, [specificData]);
+    //filter by capacity
+    if (specificData.capacity !== 1) {
+      specificData.capacity = parseInt(specificData.capacity);
+      newUpdateRooms = newUpdateRooms.filter(
+        (r) => r.capacity === specificData.capacity
+      );
+    }
+    //filter by price
+    newUpdateRooms = newUpdateRooms.filter(
+      (r) => r.price <= specificData.price
+    );
+
+    if (specificData.breakfast)
+      newUpdateRooms = newUpdateRooms.filter((r) => r.breakfast === true);
+
+    if (specificData.pets)
+      newUpdateRooms = newUpdateRooms.filter(
+        (r) => r.pets === specificData.pets
+      );
+
+    setRoomData(newUpdateRooms);
+  }, [specificData, sortedRooms]);
+
+  useEffect(() => {
+    filterRooms();
+  }, [filterRooms]);
 
   if (loading) return <Loading />;
   return (
     <div>
-      Hello
-      <RoomsFilter
-        updatedRooms={roomData}
-        specificData={specificData}
-        handleChange={handleChange}
-      />
+      <RoomsFilter specificData={specificData} handleChange={handleChange} />
       <RoomLists updatedRooms={roomData} />
     </div>
   );

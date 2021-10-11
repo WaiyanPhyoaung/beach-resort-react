@@ -2,12 +2,12 @@ import React from "react";
 import Room from "./Room";
 
 const RoomLists = (props) => {
-  const { updatedRooms, specificData } = props;
+  const { updatedRooms } = props;
 
   if (updatedRooms.length < 1)
     return (
       <div className="empty-search">
-        <h3>Unfortunately no updatedRooms matched !</h3>
+        <h3>Unfortunately no Rooms matched !</h3>
       </div>
     );
   return (
