@@ -1,6 +1,6 @@
 import React from "react";
 import { useContext } from "react";
-import { useCallback, useEffect, useState } from "react/cjs/react.development";
+import { useCallback, useEffect, useState } from "react";
 import { RoomContext } from "./Context";
 import Loading from "./Loading";
 import RoomLists from "./RoomLists";
@@ -10,8 +10,19 @@ const RoomsContainer = () => {
   const context = useContext(RoomContext);
   const { loading, sortedRooms } = context.data;
 
-  const [roomData, setRoomData] = useState([]);
-  const [specificData, setSpecificData] = useState({});
+  const [roomData, setRoomData] = useState([...sortedRooms]);
+
+  const [specificData, setSpecificData] = useState({
+    roomType: "all",
+    capacity: 1,
+    price: 0,
+    minSize: 0,
+    minPrize: 0,
+    breakfast: false,
+    pets: false,
+    maxSize: 0,
+    maxPrice: 0,
+  });
 
   //
   const getSpecificData = useCallback(() => {

@@ -190,7 +190,6 @@ h6 {
   font-size: 2.5rem;
 }
 .banner div {
-  width: 30rem;
   height: 3px;
   background: var(--primaryColor);
   margin: 1.7rem auto;
@@ -372,19 +371,21 @@ h6 {
   padding: 5rem 0 0 0;
 }
 .single-room-images {
-  width: 80vw;
-  margin: 0 auto;
+  width: 100vw;
+  margin: 0rem auto;
+
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   grid-row-gap: 2rem;
   grid-column-gap: 50px;
 }
 .single-room-images img {
+  padding: 0 0.8rem;
   width: 100%;
   display: block;
 }
 .single-room-info {
-  width: 80vw;
+  width: 90vw;
   display: grid;
   grid-template-columns: 1fr;
   margin: 2rem auto;
@@ -410,7 +411,7 @@ h6 {
   font-weight: 600;
 }
 .room-extras {
-  width: 80vw;
+  width: 90vw;
   margin: 0 auto 3rem auto;
 }
 .room-extras h6 {
@@ -431,6 +432,7 @@ h6 {
   .single-room-info,
   .room-extras {
     width: 95vw;
+    margin: 0rem auto;
     max-width: 1170px;
   }
   .single-room-info {
